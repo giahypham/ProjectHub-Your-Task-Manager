@@ -24,14 +24,19 @@ function validateProject(req, res, next) {
     const { name, description, completed } = req.body
     console.log('Received values:', name, description, completed);
 
-    if (!name || !description || !name.trim() || !description.trim() ) {
+    if (!name || 
+        !description || 
+        !name.trim() || 
+        !description.trim() ||
+        completed == undefined
+        ) {
         res.status(400).json({
-            message: "Missing required name or description"
+            message: "Missing required name or description or completion status"
         })
     } else {
         req.name = name.trim()
         req.description = description.trim()
-        req.completed = completed !== undefined ? completed : null
+        req.completed = completed || false
         next()
     }
 }
